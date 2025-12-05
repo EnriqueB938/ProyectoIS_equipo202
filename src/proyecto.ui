@@ -1,68 +1,94 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Botones</class>
- <widget class="QDialog" name="Botones">
+ <class>ProyectoWindow</class>
+ <widget class="QWidget" name="ProyectoWindow">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>300</height>
+    <height>250</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Proyecto IS - Interfaz Básica</string>
   </property>
-  <widget class="QDialogButtonBox" name="buttonBox">
+  <property name="styleSheet">
+   <string notr="true">
+     QWidget {
+        background-color: #f2f2f2;
+        font-family: "Segoe UI";
+        font-size: 12pt;
+     }
+     QFrame {
+        background-color: white;
+        border-radius: 12px;
+        border: 1px solid #cccccc;
+     }
+     QPushButton {
+        background-color: #4a90e2;
+        color: white;
+        padding: 8px;
+        border-radius: 6px;
+     }
+     QPushButton:hover {
+        background-color: #357ABD;
+     }
+   </string>
+  </property>
+
+  <widget class="QFrame" name="frame">
    <property name="geometry">
     <rect>
-     <x>40</x>
-     <y>250</y>
-     <width>341</width>
-     <height>32</height>
+     <x>30</x>
+     <y>30</y>
+     <width>340</width>
+     <height>180</height>
     </rect>
    </property>
-   <property name="orientation">
-    <enum>Qt::Horizontal</enum>
-   </property>
-   <property name="standardButtons">
-    <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
-   </property>
+
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>20</y>
+      <width>300</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Introduce tu nombre:</string>
+    </property>
+   </widget>
+
+   <widget class="QLineEdit" name="inputNombre">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>60</y>
+      <width>300</width>
+      <height>30</height>
+     </rect>
+    </property>
+   </widget>
+
+   <widget class="QPushButton" name="botonSaludar">
+    <property name="geometry">
+     <rect>
+      <x>90</x>
+      <y>110</y>
+      <width>160</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Saludar</string>
+    </property>
+   </widget>
+
   </widget>
  </widget>
  <resources/>
- <connections>
-  <connection>
-   <sender>buttonBox</sender>
-   <signal>accepted()</signal>
-   <receiver>Botones</receiver>
-   <slot>accept()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>248</x>
-     <y>254</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>157</x>
-     <y>274</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>buttonBox</sender>
-   <signal>rejected()</signal>
-   <receiver>Botones</receiver>
-   <slot>reject()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>316</x>
-     <y>260</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>286</x>
-     <y>274</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>
+
