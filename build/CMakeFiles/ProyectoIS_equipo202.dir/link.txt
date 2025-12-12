@@ -1,1 +1,0 @@
-/usr/bin/c++ CMakeFiles/ProyectoIS_equipo202.dir/ProyectoIS_equipo202_autogen/mocs_compilation.cpp.o CMakeFiles/ProyectoIS_equipo202.dir/src/proyecto-main.cc.o CMakeFiles/ProyectoIS_equipo202.dir/src/proyecto.cc.o -o ProyectoIS_equipo202  /usr/lib/x86_64-linux-gnu/libQt5Widgets.so.5.15.3 /usr/lib/x86_64-linux-gnu/libQt5Gui.so.5.15.3 /usr/lib/x86_64-linux-gnu/libQt5Core.so.5.15.3 

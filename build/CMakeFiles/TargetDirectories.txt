@@ -1,4 +1,5 @@
-/home/quiconcio/ProyectoIS_equipo202/build/CMakeFiles/ProyectoIS_equipo202.dir
+/home/quiconcio/ProyectoIS_equipo202/build/CMakeFiles/UCOTutorias.dir
 /home/quiconcio/ProyectoIS_equipo202/build/CMakeFiles/edit_cache.dir
 /home/quiconcio/ProyectoIS_equipo202/build/CMakeFiles/rebuild_cache.dir
-/home/quiconcio/ProyectoIS_equipo202/build/CMakeFiles/ProyectoIS_equipo202_autogen.dir
+/home/quiconcio/ProyectoIS_equipo202/build/CMakeFiles/UCOTutorias_autogen_timestamp_deps.dir
+/home/quiconcio/ProyectoIS_equipo202/build/CMakeFiles/UCOTutorias_autogen.dir
