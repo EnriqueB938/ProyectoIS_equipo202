@@ -1,1 +1,2 @@
-3;2;Hola profe|Hola, dime|Tengo una duda con C++
+1;2;Hola alumno|Hola, profesor|Tnego una duda...
+1;1;alumno1: hola
