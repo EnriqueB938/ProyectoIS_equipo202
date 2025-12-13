@@ -17,22 +17,30 @@ public:
     ~MainWindow();
 
 private slots:
+    // Login
     void on_btnLogin_clicked();
-    void on_btnEnviar_clicked();
-    void on_btnAsignar_clicked();
-    void on_btnBorrarChat_clicked();
     void on_btnLogout_clicked();
+
+    // Dashboard navegación
+    void on_btnDashChats_clicked();
+    void on_btnDashGestion_clicked();
+    void on_btnDashNotif_clicked();
+
+    // Botones de volver
+    void on_btnVolverDash1_clicked();
+    void on_btnVolverDash2_clicked();
+
+    // Funciones de Chat
+    void on_btnEnviarMsg_clicked();
+    void on_btnEliminarChat_clicked();
 
 private:
     Ui::MainWindow *ui;
     DataManager dataManager;
     Usuario* usuarioActual = nullptr;
-    
-    // Auxiliar para saber con quién habla el tutor
-    // (Para simplificar, el tutor habla con el alumno ID 1 por defecto o el que definamos)
-    int idInterlocutor = 0; 
+    int idInterlocutor = 0; // Con quién estoy hablando
 
-    void actualizarChatUI();
-    void configurarInterfazSegunRol();
+    void cargarInterfazChat();
+    void refrescarChat();
 };
 #endif // MAINWINDOW_H
