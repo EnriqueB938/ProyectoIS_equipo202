@@ -116,7 +116,7 @@
 
         <item>
          <widget class="QPushButton" name="btnDashGestion">
-          <property name="text"><string>GESTIÓN TUTORÍA</string></property>
+          <property name="text"><string>ASIGNACIÓN AUTOMÁTICA</string></property>
           <property name="minimumHeight"><number>70</number></property>
           <property name="font"><font><pointsize>12</pointsize><bold>true</bold></font></property>
           <property name="styleSheet">
