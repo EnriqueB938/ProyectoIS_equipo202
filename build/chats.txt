@@ -1,2 +1,2 @@
 1;2;Hola alumno|Hola, profesor|Tnego una duda...
-1;1;alumno1: hola
+1;1;alumno1: hola|alumno1: hola guapeton

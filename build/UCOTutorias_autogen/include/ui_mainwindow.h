@@ -287,7 +287,7 @@ public:
 "                background-color: #5DADE2;  /* Un poco m\303\241s oscuro al pasar rat\303\263n */\n"
 "            }\n"
 "           ", nullptr));
-        btnDashGestion->setText(QCoreApplication::translate("MainWindow", "GESTI\303\223N TUTOR\303\215A", nullptr));
+        btnDashGestion->setText(QCoreApplication::translate("MainWindow", "ASIGNACI\303\223N AUTOM\303\201TICA", nullptr));
         btnDashGestion->setStyleSheet(QCoreApplication::translate("MainWindow", "\n"
 "            QPushButton {\n"
 "                background-color: #85C1E9;\n"
