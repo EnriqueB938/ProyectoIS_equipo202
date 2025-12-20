@@ -2,7 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "DataManager.cc"
+#include "GestorDatos.h" 
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -17,30 +17,25 @@ public:
     ~MainWindow();
 
 private slots:
-    // Login
-    void on_btnLogin_clicked();
-    void on_btnLogout_clicked();
+    // --- Login ---
+    void on_btnLogin_clicked(); // Nombre cambiado (antes btnEntrar)
+    void on_btnLogout_clicked(); // Nuevo: Cerrar sesión
 
-    // Dashboard navegación
+    // --- Navegación del Dashboard ---
     void on_btnDashChats_clicked();
-    void on_btnDashGestion_clicked();
+    void on_btnDashGestion_clicked(); // (Antes btnAsignarTutor)
     void on_btnDashNotif_clicked();
+    void on_btnVolverDash1_clicked(); // Volver desde chat
+    void on_btnVolverDash2_clicked(); // Volver desde notificaciones
 
-    // Botones de volver
-    void on_btnVolverDash1_clicked();
-    void on_btnVolverDash2_clicked();
-
-    // Funciones de Chat
-    void on_btnEnviarMsg_clicked();
+    // --- Funcionalidad del Chat ---
+    void on_btnEnviarMsg_clicked(); // Nombre cambiado (antes btnEnviar)
     void on_btnEliminarChat_clicked();
 
 private:
     Ui::MainWindow *ui;
-    DataManager dataManager;
-    Usuario* usuarioActual = nullptr;
-    int idInterlocutor = 0; // Con quién estoy hablando
-
-    void cargarInterfazChat();
-    void refrescarChat();
+    
+    void cargarChatEnPantalla(int idAlumno, int idTutor);
+    void cargarNotificaciones(); // Función nueva para rellenar la lista de notifs
 };
 #endif // MAINWINDOW_H

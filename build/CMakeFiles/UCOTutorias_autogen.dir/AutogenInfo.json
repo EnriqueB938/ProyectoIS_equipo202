@@ -137,6 +137,12 @@
 	"HEADERS" : 
 	[
 		[
+			"/home/quiconcio/ProyectoIS_equipo202/GestorDatos.h",
+			"MU",
+			"EWIEGA46WW/moc_GestorDatos.cpp",
+			null
+		],
+		[
 			"/home/quiconcio/ProyectoIS_equipo202/mainwindow.h",
 			"MU",
 			"EWIEGA46WW/moc_mainwindow.cpp",

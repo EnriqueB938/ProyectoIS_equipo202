@@ -18,6 +18,7 @@ set(PROJECT_SOURCES
     mainwindow.h
     DataManager.cc
     mainwindow.ui
+    GestorDatos.h
 )
 
 add_executable(UCOTutorias ${PROJECT_SOURCES})

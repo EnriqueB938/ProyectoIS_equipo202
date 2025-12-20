@@ -1,14 +1,20 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QMessageBox>
-#include <QInputDialog>
+#include "GestorDatos.h"
+
+// Variables globales
+Usuario* usuarioActual = nullptr;
+GestorDatos gestor;
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    ui->stackedWidget->setCurrentIndex(0); // Empezar en Login
+    
+    // Iniciar en la página de Login (índice 0)
+    ui->stackedWidget->setCurrentIndex(0); 
 }
 
 MainWindow::~MainWindow()
@@ -17,132 +23,177 @@ MainWindow::~MainWindow()
     if (usuarioActual) delete usuarioActual;
 }
 
-// --- LOGIN ---
+// =========================================================
+//  LÓGICA DE ACCESO (LOGIN & LOGOUT)
+// =========================================================
+
 void MainWindow::on_btnLogin_clicked()
 {
-    QString u = ui->inputUser->text();
-    QString p = ui->inputPass->text();
-    usuarioActual = dataManager.validarUsuario(u, p);
+    // NOMBRES NUEVOS EN EL XML: inputUser, inputPass
+    string u = ui->inputUser->text().toStdString();
+    string p = ui->inputPass->text().toStdString();
 
-    if (usuarioActual) {
-        ui->lblBienvenidaDash->setText("Bienvenido al Panel, " + usuarioActual->nombre);
-        ui->stackedWidget->setCurrentIndex(1); // Ir al Dashboard
+    usuarioActual = gestor.login(u, p);
+
+    if (usuarioActual != nullptr) {
+        // Login exitoso -> Vamos al DASHBOARD (Página 1)
+        ui->lblBienvenidaDash->setText("Hola, " + QString::fromStdString(usuarioActual->username));
+        ui->stackedWidget->setCurrentIndex(1); 
+        
+        // Limpiamos campos de login por seguridad
+        ui->inputUser->clear();
+        ui->inputPass->clear();
+
     } else {
-        QMessageBox::warning(this, "Error", "Credenciales incorrectas");
+        QMessageBox::warning(this, "Error de Acceso", "Credenciales UCO incorrectas.");
     }
 }
 
 void MainWindow::on_btnLogout_clicked()
 {
-    if (usuarioActual) delete usuarioActual;
-    usuarioActual = nullptr;
-    ui->inputUser->clear();
-    ui->inputPass->clear();
+    if(usuarioActual) {
+        delete usuarioActual;
+        usuarioActual = nullptr;
+    }
+    // Volver al Login
     ui->stackedWidget->setCurrentIndex(0);
 }
 
-// --- DASHBOARD: BOTÓN CHATS ---
+// =========================================================
+//  NAVEGACIÓN DEL DASHBOARD
+// =========================================================
+
 void MainWindow::on_btnDashChats_clicked()
 {
-    // Lógica para determinar con quién hablar
-    idInterlocutor = 0;
-
-    if (usuarioActual->rol == "alumno") {
-        if (usuarioActual->idTutor == 0) {
-            QMessageBox::information(this, "Aviso", "No tienes tutor asignado. Ve a 'Gestión Tutoría'.");
-            return;
-        }
-        idInterlocutor = usuarioActual->idTutor;
-    } 
-    else if (usuarioActual->rol == "tutor") {
-        bool ok;
-        int idInput = QInputDialog::getInt(this, "Selección", "ID del Alumno a contactar:", 0, 0, 100, 1, &ok);
-        if (ok && idInput > 0) idInterlocutor = idInput;
-        else return;
+    // Ir a página de Chats (Índice 2)
+    ui->stackedWidget->setCurrentIndex(2);
+    
+    // Cargar lógica del chat automáticamente si procede
+    if (usuarioActual && usuarioActual->rol == "alumno" && usuarioActual->idTutor != 0) {
+        cargarChatEnPantalla(usuarioActual->id, usuarioActual->idTutor);
+    } else if (usuarioActual && usuarioActual->rol == "tutor") {
+        ui->txtChatDisplay->setText("Seleccione un alumno (Función pendiente de implementación).");
+    } else {
+        ui->txtChatDisplay->setText("Aún no tienes tutor asignado.");
     }
-
-    // Si tenemos interlocutor, vamos a la pantalla de chat
-    ui->stackedWidget->setCurrentIndex(2); // PageChat
-    refrescarChat();
 }
 
-// --- DASHBOARD: BOTÓN GESTIÓN (ASIGNAR / VER ALUMNOS) ---
 void MainWindow::on_btnDashGestion_clicked()
 {
-    if (usuarioActual->rol == "alumno") {
-        // Lógica de Alumno: Asignar Tutor Automático
+    // Esta es la lógica antigua de "Asignar Tutor"
+    if (!usuarioActual) return;
+
+    if (usuarioActual->rol == "tutor") {
+         QMessageBox::information(this, "Información", "Como tutor, gestionas a tus alumnos aquí.");
+         // Aquí podrías mostrar una lista de alumnos
+    } 
+    else {
+        // Es alumno
         if (usuarioActual->idTutor != 0) {
-            QMessageBox::information(this, "Info", "Ya tienes un tutor asignado (ID: " + QString::number(usuarioActual->idTutor) + ")");
+            QMessageBox::information(this, "Aviso", "Ya tienes un tutor asignado.");
         } else {
-            if (dataManager.asignarTutor(usuarioActual)) {
-                QMessageBox::information(this, "Éxito", "¡Tutor asignado automáticamente! Revisa tus notificaciones.");
+            if (gestor.asignarTutorAutomatico(usuarioActual)) {
+                QMessageBox::information(this, "Éxito", "¡Se te ha asignado un tutor automáticamente!");
             } else {
                 QMessageBox::warning(this, "Error", "No hay tutores disponibles en el sistema.");
             }
         }
-    } 
-    else if (usuarioActual->rol == "tutor") {
-        // Lógica de Tutor: Ver lista de alumnos
-        QStringList misAlumnos = dataManager.obtenerMisAlumnos(usuarioActual->id);
-        if (misAlumnos.isEmpty()) {
-            QMessageBox::information(this, "Mis Alumnos", "Aún no tienes alumnos asignados.");
-        } else {
-            // Mostramos una lista simple en un mensaje emergente
-            QString listaStr = misAlumnos.join("\n");
-            QMessageBox::information(this, "Mis Alumnos Asignados", listaStr);
-        }
     }
 }
 
-// --- DASHBOARD: BOTÓN NOTIFICACIONES ---
 void MainWindow::on_btnDashNotif_clicked()
 {
-    ui->listNotificaciones->clear();
-    QStringList notifs = dataManager.leerNotificaciones(usuarioActual->id);
-    ui->listNotificaciones->addItems(notifs);
-    ui->stackedWidget->setCurrentIndex(3); // PageNotif
+    // Ir a página de Notificaciones (Índice 3)
+    ui->stackedWidget->setCurrentIndex(3);
+    cargarNotificaciones();
 }
 
-// --- BOTONES "VOLVER" ---
+// Botones para "Volver atrás"
 void MainWindow::on_btnVolverDash1_clicked() { ui->stackedWidget->setCurrentIndex(1); }
 void MainWindow::on_btnVolverDash2_clicked() { ui->stackedWidget->setCurrentIndex(1); }
 
-// --- FUNCIONES DEL CHAT ---
-void MainWindow::refrescarChat() {
-    if (idInterlocutor == 0) return;
-    int idAlu = (usuarioActual->rol == "alumno") ? usuarioActual->id : idInterlocutor;
-    int idTut = (usuarioActual->rol == "tutor") ? usuarioActual->id : idInterlocutor;
-    
-    QString texto = dataManager.cargarChat(idAlu, idTut);
-    ui->txtChatDisplay->setText(texto);
-}
+
+// =========================================================
+//  LÓGICA DEL CHAT
+// =========================================================
 
 void MainWindow::on_btnEnviarMsg_clicked()
 {
-    QString msg = ui->inputMsgChat->text();
-    if (msg.isEmpty() || idInterlocutor == 0) return;
+    // NOMBRE NUEVO EN EL XML: inputMsgChat
+    QString textoQt = ui->inputMsgChat->text();
+    string mensajeStr = textoQt.toStdString();
 
-    int idAlu = (usuarioActual->rol == "alumno") ? usuarioActual->id : idInterlocutor;
-    int idTut = (usuarioActual->rol == "tutor") ? usuarioActual->id : idInterlocutor;
+    if(textoQt.isEmpty()) return;
 
-    // Guardar y Notificar al interlocutor
-    dataManager.guardarMensaje(idAlu, idTut, msg, usuarioActual->nombre, idInterlocutor);
-    
-    // Crear notificación local para mí también
-    dataManager.crearNotificacion(usuarioActual->id, "Has enviado un mensaje en el chat.");
+    // 1. FILTRO DE INSULTOS
+    if (!gestor.esMensajeSeguro(mensajeStr)) {
+        QMessageBox::critical(this, "Mensaje Bloqueado", 
+                              "El mensaje contiene lenguaje inapropiado y no será enviado.");
+        ui->inputMsgChat->clear();
+        return; 
+    }
+
+    // 2. Verificar datos
+    int idAlu, idTut;
+    if (usuarioActual->rol == "alumno") {
+        if(usuarioActual->idTutor == 0) {
+            QMessageBox::warning(this, "Error", "Sin tutor asignado.");
+            return;
+        }
+        idAlu = usuarioActual->id;
+        idTut = usuarioActual->idTutor;
+    } else {
+        // Caso Tutor (simplificado)
+        QMessageBox::information(this, "Info", "Selección de alumno pendiente.");
+        return; 
+    }
+
+    // 3. Enviar
+    string msgFinal = usuarioActual->username + ": " + mensajeStr;
+    gestor.enviarMensaje(idAlu, idTut, msgFinal);
 
     ui->inputMsgChat->clear();
-    refrescarChat();
+    cargarChatEnPantalla(idAlu, idTut);
 }
 
 void MainWindow::on_btnEliminarChat_clicked()
 {
-    if (idInterlocutor == 0) return;
-    int idAlu = (usuarioActual->rol == "alumno") ? usuarioActual->id : idInterlocutor;
-    int idTut = (usuarioActual->rol == "tutor") ? usuarioActual->id : idInterlocutor;
+    if (usuarioActual->rol == "alumno" && usuarioActual->idTutor != 0) {
+        auto reply = QMessageBox::question(this, "Eliminar Chat", 
+                                      "¿Borrar historial completo?",
+                                      QMessageBox::Yes|QMessageBox::No);
+        if (reply == QMessageBox::Yes) {
+            gestor.eliminarChat(usuarioActual->id, usuarioActual->idTutor);
+            ui->txtChatDisplay->clear();
+            QMessageBox::information(this, "Borrado", "Chat eliminado.");
+        }
+    }
+}
 
-    dataManager.eliminarChat(idAlu, idTut, usuarioActual->id);
+// =========================================================
+//  FUNCIONES AUXILIARES
+// =========================================================
+
+void MainWindow::cargarChatEnPantalla(int idAlumno, int idTutor) {
     ui->txtChatDisplay->clear();
-    QMessageBox::information(this, "Info", "Chat eliminado.");
-    ui->stackedWidget->setCurrentIndex(1); // Volver al dashboard
+    ChatInfo info = gestor.obtenerChat(idAlumno, idTutor);
+
+    if (info.existe) {
+        for (string msg : info.mensajes) {
+            ui->txtChatDisplay->append(QString::fromStdString(msg));
+        }
+    } else {
+        ui->txtChatDisplay->setText("<i>Chat vacío.</i>");
+    }
+}
+
+void MainWindow::cargarNotificaciones() {
+    ui->listNotificaciones->clear();
+    // Ejemplo de notificaciones estáticas (RF11)
+    ui->listNotificaciones->addItem("Bienvenido al sistema UCO Tutorías.");
+    if(usuarioActual->idTutor != 0) {
+        ui->listNotificaciones->addItem("Tienes un tutor asignado correctamente.");
+    } else {
+        ui->listNotificaciones->addItem("Recuerda solicitar la asignación de tutor.");
+    }
 }

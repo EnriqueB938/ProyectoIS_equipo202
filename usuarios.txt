@@ -1,7 +1,4 @@
-1;alumno1;1234;alumno;0
-2;profe1;abcd;tutor;0
-3;alumno2;5678;alumno;2
-4;alumno3;9101;alumno;3
-5;alumno4;fgth;alumno;4
-6;profe2;4df5;tutor;0
-7;profe3;6ghy;tutor;0
+1,alumno1,1234,alumno,0
+2,tutor1,abcd,tutor,0
+3,pepe.uco,1234,alumno,0
+4,maria.uco,5678,tutor,0

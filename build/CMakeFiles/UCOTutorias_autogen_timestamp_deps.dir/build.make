@@ -67,8 +67,8 @@ include CMakeFiles/UCOTutorias_autogen_timestamp_deps.dir/compiler_depend.make
 include CMakeFiles/UCOTutorias_autogen_timestamp_deps.dir/progress.make
 
 CMakeFiles/UCOTutorias_autogen_timestamp_deps: /usr/lib/x86_64-linux-gnu/libQt5Widgets.so.5.15.13
-CMakeFiles/UCOTutorias_autogen_timestamp_deps: /usr/lib/qt5/bin/moc
 CMakeFiles/UCOTutorias_autogen_timestamp_deps: /usr/lib/qt5/bin/uic
+CMakeFiles/UCOTutorias_autogen_timestamp_deps: /usr/lib/qt5/bin/moc
 
 UCOTutorias_autogen_timestamp_deps: CMakeFiles/UCOTutorias_autogen_timestamp_deps
 UCOTutorias_autogen_timestamp_deps: CMakeFiles/UCOTutorias_autogen_timestamp_deps.dir/build.make
