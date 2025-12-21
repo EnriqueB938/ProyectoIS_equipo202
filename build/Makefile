@@ -155,30 +155,6 @@ UCOTutorias_autogen/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/UCOTutorias_autogen.dir/build.make CMakeFiles/UCOTutorias_autogen.dir/build
 .PHONY : UCOTutorias_autogen/fast
 
-DataManager.o: DataManager.cc.o
-.PHONY : DataManager.o
-
-# target to build an object file
-DataManager.cc.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/UCOTutorias.dir/build.make CMakeFiles/UCOTutorias.dir/DataManager.cc.o
-.PHONY : DataManager.cc.o
-
-DataManager.i: DataManager.cc.i
-.PHONY : DataManager.i
-
-# target to preprocess a source file
-DataManager.cc.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/UCOTutorias.dir/build.make CMakeFiles/UCOTutorias.dir/DataManager.cc.i
-.PHONY : DataManager.cc.i
-
-DataManager.s: DataManager.cc.s
-.PHONY : DataManager.s
-
-# target to generate assembly for a file
-DataManager.cc.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/UCOTutorias.dir/build.make CMakeFiles/UCOTutorias.dir/DataManager.cc.s
-.PHONY : DataManager.cc.s
-
 UCOTutorias_autogen/mocs_compilation.o: UCOTutorias_autogen/mocs_compilation.cpp.o
 .PHONY : UCOTutorias_autogen/mocs_compilation.o
 
@@ -262,9 +238,6 @@ help:
 	@echo "... UCOTutorias_autogen"
 	@echo "... UCOTutorias_autogen_timestamp_deps"
 	@echo "... UCOTutorias"
-	@echo "... DataManager.o"
-	@echo "... DataManager.i"
-	@echo "... DataManager.s"
 	@echo "... UCOTutorias_autogen/mocs_compilation.o"
 	@echo "... UCOTutorias_autogen/mocs_compilation.i"
 	@echo "... UCOTutorias_autogen/mocs_compilation.s"

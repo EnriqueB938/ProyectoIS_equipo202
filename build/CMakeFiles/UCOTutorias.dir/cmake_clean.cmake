@@ -2,8 +2,6 @@ file(REMOVE_RECURSE
   "CMakeFiles/UCOTutorias_autogen.dir/AutogenUsed.txt"
   "CMakeFiles/UCOTutorias_autogen.dir/ParseCache.txt"
   "UCOTutorias_autogen"
-  "CMakeFiles/UCOTutorias.dir/DataManager.cc.o"
-  "CMakeFiles/UCOTutorias.dir/DataManager.cc.o.d"
   "CMakeFiles/UCOTutorias.dir/UCOTutorias_autogen/mocs_compilation.cpp.o"
   "CMakeFiles/UCOTutorias.dir/UCOTutorias_autogen/mocs_compilation.cpp.o.d"
   "CMakeFiles/UCOTutorias.dir/main.cpp.o"

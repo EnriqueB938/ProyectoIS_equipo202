@@ -9,7 +9,6 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "" "UCOTutorias_autogen/timestamp" "custom" "UCOTutorias_autogen/deps"
-  "/home/quiconcio/ProyectoIS_equipo202/DataManager.cc" "CMakeFiles/UCOTutorias.dir/DataManager.cc.o" "gcc" "CMakeFiles/UCOTutorias.dir/DataManager.cc.o.d"
   "/home/quiconcio/ProyectoIS_equipo202/build/UCOTutorias_autogen/mocs_compilation.cpp" "CMakeFiles/UCOTutorias.dir/UCOTutorias_autogen/mocs_compilation.cpp.o" "gcc" "CMakeFiles/UCOTutorias.dir/UCOTutorias_autogen/mocs_compilation.cpp.o.d"
   "/home/quiconcio/ProyectoIS_equipo202/main.cpp" "CMakeFiles/UCOTutorias.dir/main.cpp.o" "gcc" "CMakeFiles/UCOTutorias.dir/main.cpp.o.d"
   "/home/quiconcio/ProyectoIS_equipo202/mainwindow.cpp" "CMakeFiles/UCOTutorias.dir/mainwindow.cpp.o" "gcc" "CMakeFiles/UCOTutorias.dir/mainwindow.cpp.o.d"

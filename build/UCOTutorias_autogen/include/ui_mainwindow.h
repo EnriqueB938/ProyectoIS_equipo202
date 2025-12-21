@@ -11,6 +11,7 @@
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
+#include <QtWidgets/QComboBox>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
@@ -44,6 +45,8 @@ public:
     QWidget *pageDashboard;
     QVBoxLayout *layoutDash;
     QLabel *lblBienvenidaDash;
+    QLabel *lblSelectInfo;
+    QComboBox *cmbAlumnosTutor;
     QSpacerItem *vspacer3;
     QPushButton *btnDashChats;
     QPushButton *btnDashGestion;
@@ -132,31 +135,36 @@ public:
 
         layoutDash->addWidget(lblBienvenidaDash);
 
+        lblSelectInfo = new QLabel(pageDashboard);
+        lblSelectInfo->setObjectName(QString::fromUtf8("lblSelectInfo"));
+        lblSelectInfo->setAlignment(Qt::AlignCenter);
+
+        layoutDash->addWidget(lblSelectInfo);
+
+        cmbAlumnosTutor = new QComboBox(pageDashboard);
+        cmbAlumnosTutor->setObjectName(QString::fromUtf8("cmbAlumnosTutor"));
+
+        layoutDash->addWidget(cmbAlumnosTutor);
+
         vspacer3 = new QSpacerItem(0, 0, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
         layoutDash->addItem(vspacer3);
 
         btnDashChats = new QPushButton(pageDashboard);
         btnDashChats->setObjectName(QString::fromUtf8("btnDashChats"));
-        btnDashChats->setMinimumHeight(70);
-        QFont font2;
-        font2.setPointSize(12);
-        font2.setBold(true);
-        btnDashChats->setFont(font2);
+        btnDashChats->setMinimumHeight(60);
 
         layoutDash->addWidget(btnDashChats);
 
         btnDashGestion = new QPushButton(pageDashboard);
         btnDashGestion->setObjectName(QString::fromUtf8("btnDashGestion"));
-        btnDashGestion->setMinimumHeight(70);
-        btnDashGestion->setFont(font2);
+        btnDashGestion->setMinimumHeight(60);
 
         layoutDash->addWidget(btnDashGestion);
 
         btnDashNotif = new QPushButton(pageDashboard);
         btnDashNotif->setObjectName(QString::fromUtf8("btnDashNotif"));
-        btnDashNotif->setMinimumHeight(70);
-        btnDashNotif->setFont(font2);
+        btnDashNotif->setMinimumHeight(60);
 
         layoutDash->addWidget(btnDashNotif);
 
@@ -176,10 +184,10 @@ public:
         layoutChatPage->setObjectName(QString::fromUtf8("layoutChatPage"));
         lblChatHeader = new QLabel(pageChats);
         lblChatHeader->setObjectName(QString::fromUtf8("lblChatHeader"));
-        QFont font3;
-        font3.setPointSize(14);
-        font3.setBold(true);
-        lblChatHeader->setFont(font3);
+        QFont font2;
+        font2.setPointSize(14);
+        font2.setBold(true);
+        lblChatHeader->setFont(font2);
         lblChatHeader->setAlignment(Qt::AlignCenter);
 
         layoutChatPage->addWidget(lblChatHeader);
@@ -227,7 +235,10 @@ public:
         layoutNotif->setObjectName(QString::fromUtf8("layoutNotif"));
         lblNotifTitle = new QLabel(pageNotif);
         lblNotifTitle->setObjectName(QString::fromUtf8("lblNotifTitle"));
-        lblNotifTitle->setFont(font2);
+        QFont font3;
+        font3.setPointSize(12);
+        font3.setBold(true);
+        lblNotifTitle->setFont(font3);
         lblNotifTitle->setAlignment(Qt::AlignCenter);
 
         layoutNotif->addWidget(lblNotifTitle);
@@ -268,7 +279,6 @@ public:
         MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "Tutor\303\255a UCO Pro", nullptr));
         MainWindow->setStyleSheet(QCoreApplication::translate("MainWindow", "QMainWindow { background-color: #F0F0F0; }", nullptr));
         lblTitleLogin->setText(QCoreApplication::translate("MainWindow", "ACCESO UCO", nullptr));
-        lblTitleLogin->setStyleSheet(QCoreApplication::translate("MainWindow", "color: #333333;", nullptr));
         inputUser->setPlaceholderText(QCoreApplication::translate("MainWindow", "Usuario", nullptr));
         inputUser->setStyleSheet(QCoreApplication::translate("MainWindow", "padding: 8px; border-radius: 5px; border: 1px solid #ccc; background: white;", nullptr));
         inputPass->setPlaceholderText(QCoreApplication::translate("MainWindow", "Contrase\303\261a", nullptr));
@@ -276,13 +286,15 @@ public:
         btnLogin->setText(QCoreApplication::translate("MainWindow", "Iniciar Sesi\303\263n", nullptr));
         btnLogin->setStyleSheet(QCoreApplication::translate("MainWindow", "QPushButton { background-color: #2E86C1; color: white; border-radius: 5px; padding: 10px; font-weight: bold; } QPushButton:hover { background-color: #2874A6; }", nullptr));
         lblBienvenidaDash->setText(QCoreApplication::translate("MainWindow", "Hola, Usuario", nullptr));
-        lblBienvenidaDash->setStyleSheet(QCoreApplication::translate("MainWindow", "color: #2C3E50; margin-bottom: 20px;", nullptr));
+        lblSelectInfo->setText(QCoreApplication::translate("MainWindow", "Selecciona el alumno con el que quieres trabajar:", nullptr));
+        lblSelectInfo->setStyleSheet(QCoreApplication::translate("MainWindow", "color: #555; margin-top: 10px;", nullptr));
+        cmbAlumnosTutor->setStyleSheet(QCoreApplication::translate("MainWindow", "padding: 5px; font-size: 14px; border: 1px solid #ccc; border-radius: 5px; background: white;", nullptr));
         btnDashChats->setText(QCoreApplication::translate("MainWindow", "CHATS", nullptr));
-        btnDashChats->setStyleSheet(QCoreApplication::translate("MainWindow", "QPushButton { background-color: #85C1E9; color: white; border-radius: 10px; border: 2px solid #5DADE2; } QPushButton:hover { background-color: #5DADE2; }", nullptr));
+        btnDashChats->setStyleSheet(QCoreApplication::translate("MainWindow", "QPushButton { background-color: #85C1E9; color: white; border-radius: 10px; border: 2px solid #5DADE2; font-weight: bold; } QPushButton:hover { background-color: #5DADE2; }", nullptr));
         btnDashGestion->setText(QCoreApplication::translate("MainWindow", "ASIGNACI\303\223N AUTOM\303\201TICA", nullptr));
-        btnDashGestion->setStyleSheet(QCoreApplication::translate("MainWindow", "QPushButton { background-color: #85C1E9; color: white; border-radius: 10px; border: 2px solid #5DADE2; } QPushButton:hover { background-color: #5DADE2; }", nullptr));
+        btnDashGestion->setStyleSheet(QCoreApplication::translate("MainWindow", "QPushButton { background-color: #85C1E9; color: white; border-radius: 10px; border: 2px solid #5DADE2; font-weight: bold; } QPushButton:hover { background-color: #5DADE2; }", nullptr));
         btnDashNotif->setText(QCoreApplication::translate("MainWindow", "NOTIFICACIONES", nullptr));
-        btnDashNotif->setStyleSheet(QCoreApplication::translate("MainWindow", "QPushButton { background-color: #85C1E9; color: white; border-radius: 10px; border: 2px solid #5DADE2; } QPushButton:hover { background-color: #5DADE2; }", nullptr));
+        btnDashNotif->setStyleSheet(QCoreApplication::translate("MainWindow", "QPushButton { background-color: #85C1E9; color: white; border-radius: 10px; border: 2px solid #5DADE2; font-weight: bold; } QPushButton:hover { background-color: #5DADE2; }", nullptr));
         btnLogout->setText(QCoreApplication::translate("MainWindow", "Cerrar Sesi\303\263n", nullptr));
         btnLogout->setStyleSheet(QCoreApplication::translate("MainWindow", "background-color: #E74C3C; color: white; border-radius: 5px; padding: 5px;", nullptr));
         lblChatHeader->setText(QCoreApplication::translate("MainWindow", "Sala de Chat", nullptr));
