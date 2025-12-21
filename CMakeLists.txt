@@ -16,7 +16,6 @@ set(PROJECT_SOURCES
     main.cpp
     mainwindow.cpp
     mainwindow.h
-    DataManager.cc
     mainwindow.ui
     GestorDatos.h
 )

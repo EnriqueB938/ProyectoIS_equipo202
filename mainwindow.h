@@ -17,25 +17,27 @@ public:
     ~MainWindow();
 
 private slots:
-    // --- Login ---
-    void on_btnLogin_clicked(); // Nombre cambiado (antes btnEntrar)
-    void on_btnLogout_clicked(); // Nuevo: Cerrar sesión
+    void on_btnLogin_clicked();
+    void on_btnLogout_clicked();
 
-    // --- Navegación del Dashboard ---
     void on_btnDashChats_clicked();
-    void on_btnDashGestion_clicked(); // (Antes btnAsignarTutor)
-    void on_btnDashNotif_clicked();
-    void on_btnVolverDash1_clicked(); // Volver desde chat
-    void on_btnVolverDash2_clicked(); // Volver desde notificaciones
+    void on_btnDashGestion_clicked();
+    void on_btnDashNotif_clicked(); // Ver notificaciones
+    
+    void on_btnVolverDash1_clicked();
+    void on_btnVolverDash2_clicked();
 
-    // --- Funcionalidad del Chat ---
-    void on_btnEnviarMsg_clicked(); // Nombre cambiado (antes btnEnviar)
+    void on_btnEnviarMsg_clicked();
     void on_btnEliminarChat_clicked();
 
 private:
     Ui::MainWindow *ui;
     
+    // Esta variable ahora se controla desde el ComboBox del Dashboard
+    int idAlumnoChatActual; 
+    
     void cargarChatEnPantalla(int idAlumno, int idTutor);
-    void cargarNotificaciones(); // Función nueva para rellenar la lista de notifs
+    void cargarNotificaciones();
+    void configurarDashboardTutor(); // Nueva función auxiliar
 };
 #endif // MAINWINDOW_H

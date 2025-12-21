@@ -2,3 +2,5 @@
 2,tutor1,abcd,tutor,0
 3,pepe.uco,1234,alumno,0
 4,maria.uco,5678,tutor,0
+5,enrique.uco,9999,alumno,0
+6,javier.uco,8888,alumno,0

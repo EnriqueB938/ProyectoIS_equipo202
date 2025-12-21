@@ -10,6 +10,7 @@
 
 using namespace std;
 
+// Estructuras de datos
 struct Usuario {
     int id;
     string username;
@@ -24,11 +25,16 @@ struct ChatInfo {
     bool existe;
 };
 
+// NUEVA ESTRUCTURA para listar alumnos
+struct AlumnoResumen {
+    int id;
+    string nombre;
+};
+
 class GestorDatos {
 private:
     string archivoUsuarios = "usuarios.txt";
     string archivoChats = "chats.txt";
-    
     vector<string> insultos = {"tonto", "idiota", "estupido", "inutil", "bobo", "suspenso", "imbecil"};
 
 public:
@@ -47,8 +53,7 @@ public:
         ifstream file(archivoUsuarios);
         string linea;
         while (getline(file, linea)) {
-            if (linea.empty()) continue; // Salta líneas vacías
-
+            if (linea.empty()) continue;
             stringstream ss(linea);
             string segmento;
             vector<string> datos;
@@ -63,10 +68,7 @@ public:
                     u->rol = datos[3];
                     u->idTutor = (datos.size() > 4 && !datos[4].empty()) ? stoi(datos[4]) : 0;
                     return u;
-                } catch (...) {
-                    delete u;
-                    continue; // Si falla la conversión, salta la línea
-                }
+                } catch (...) { delete u; continue; }
             }
         }
         return nullptr;
@@ -83,14 +85,11 @@ public:
         while (getline(fileIn, linea)) {
             lineas.push_back(linea);
             if (linea.empty()) continue;
-
             if (idTutorEncontrado == -1 && linea.find("tutor") != string::npos) {
                 stringstream ss(linea);
                 string idStr;
                 getline(ss, idStr, ',');
-                try {
-                    if (!idStr.empty()) idTutorEncontrado = stoi(idStr);
-                } catch(...) {}
+                try { if (!idStr.empty()) idTutorEncontrado = stoi(idStr); } catch(...) {}
             }
         }
         fileIn.close();
@@ -106,12 +105,8 @@ public:
                         fileOut << alumno->id << "," << alumno->username << "," 
                                 << alumno->password << ",alumno," << idTutorEncontrado << endl;
                         alumno->idTutor = idTutorEncontrado; 
-                    } else {
-                        fileOut << l << endl;
-                    }
-                } catch (...) {
-                    fileOut << l << endl; // Si falla, reescribe la línea tal cual
-                }
+                    } else { fileOut << l << endl; }
+                } catch (...) { fileOut << l << endl; }
             }
             fileOut.close();
             return true;
@@ -119,7 +114,7 @@ public:
         return false;
     }
 
-    // --- GESTIÓN DE CHATS (AQUÍ ESTABA EL ERROR) ---
+    // --- GESTIÓN DE CHATS ---
     ChatInfo obtenerChat(int idAlumno, int idTutor) {
         ifstream file(archivoChats);
         string linea;
@@ -128,23 +123,19 @@ public:
         chat.idChat = -1;
 
         while (getline(file, linea)) {
-            if (linea.empty()) continue; // PROTECCIÓN 1: Saltar vacíos
-
+            if (linea.empty()) continue;
             stringstream ss(linea);
             string segmento;
             vector<string> datos;
             while(getline(ss, segmento, ',')) datos.push_back(segmento);
 
-            if (datos.size() >= 3) { // Necesitamos al menos id, id_alu, id_tut
+            if (datos.size() >= 3) {
                 try {
-                    // PROTECCIÓN 2: Try-Catch para stoi
                     int regAlumno = stoi(datos[1]);
                     int regTutor = stoi(datos[2]);
-
                     if (regAlumno == idAlumno && regTutor == idTutor) {
                         chat.existe = true;
                         chat.idChat = stoi(datos[0]);
-                        
                         if (datos.size() > 3) {
                             stringstream ssMsg(datos[3]);
                             string unMensaje;
@@ -152,15 +143,12 @@ public:
                         }
                         return chat;
                     }
-                } catch (...) {
-                    continue; // Línea corrupta, saltar
-                }
+                } catch (...) { continue; }
             }
         }
         return chat;
     }
 
-    // --- ENVIAR MENSAJE (AQUÍ ESTABA EL ERROR PRINCIPAL) ---
     void enviarMensaje(int idAlumno, int idTutor, string nuevoMensaje) {
         vector<string> lineas;
         ifstream fileIn(archivoChats);
@@ -169,18 +157,12 @@ public:
         int maxId = 0;
 
         while (getline(fileIn, linea)) {
-            if (linea.empty()) continue; // Ignorar líneas en blanco
-
+            if (linea.empty()) continue;
             stringstream ss(linea);
             string idStr, aluStr, tutStr;
-            getline(ss, idStr, ',');
-            getline(ss, aluStr, ',');
-            getline(ss, tutStr, ',');
-            
+            getline(ss, idStr, ','); getline(ss, aluStr, ','); getline(ss, tutStr, ',');
             try {
-                // Verificamos que los datos existan antes de convertir
                 if (!idStr.empty()) maxId = max(maxId, stoi(idStr));
-
                 if (!aluStr.empty() && !tutStr.empty()) {
                     if (stoi(aluStr) == idAlumno && stoi(tutStr) == idTutor) {
                         linea += "|" + nuevoMensaje;
@@ -188,12 +170,7 @@ public:
                     }
                 }
                 lineas.push_back(linea);
-            } catch (...) {
-                // Si la línea está mal, la ignoramos o la guardamos tal cual para no romper el archivo
-                // En este caso, mejor no guardarla en 'lineas' si está muy corrupta, 
-                // o guardarla tal cual para arreglarla a mano.
-                lineas.push_back(linea); 
-            }
+            } catch (...) { lineas.push_back(linea); }
         }
         fileIn.close();
 
@@ -213,20 +190,16 @@ public:
         string linea;
         while (getline(fileIn, linea)) {
             if (linea.empty()) continue;
-
             stringstream ss(linea);
             string trash, aluStr, tutStr;
             getline(ss, trash, ','); getline(ss, aluStr, ','); getline(ss, tutStr, ',');
-            
             try {
                 if (!aluStr.empty() && !tutStr.empty()) {
                     if (stoi(aluStr) != idAlumno || stoi(tutStr) != idTutor) {
                         lineas.push_back(linea);
                     }
                 }
-            } catch(...) {
-                lineas.push_back(linea); // Mantener líneas dudosas por seguridad
-            }
+            } catch(...) { lineas.push_back(linea); }
         }
         fileIn.close();
         ofstream fileOut(archivoChats);
@@ -234,7 +207,6 @@ public:
         fileOut.close();
     }
 
-    // --- OTRAS FUNCIONES ---
     string obtenerNombrePorId(int idBusqueda) {
         ifstream file(archivoUsuarios);
         string linea;
@@ -242,41 +214,36 @@ public:
             if (linea.empty()) continue;
             stringstream ss(linea);
             string idStr, nombre;
-            getline(ss, idStr, ',');
-            getline(ss, nombre, ',');
-            try {
-                if (!idStr.empty() && stoi(idStr) == idBusqueda) return nombre;
-            } catch(...) {}
+            getline(ss, idStr, ','); getline(ss, nombre, ',');
+            try { if (!idStr.empty() && stoi(idStr) == idBusqueda) return nombre; } catch(...) {}
         }
         return "Desconocido";
     }
 
-    vector<string> obtenerAlumnosDeTutor(int idTutorPropio) {
-        vector<string> listaAlumnos;
+    // --- MODIFICADO: Devuelve struct con ID y Nombre ---
+    vector<AlumnoResumen> obtenerAlumnosDeTutor(int idTutorPropio) {
+        vector<AlumnoResumen> lista;
         ifstream file(archivoUsuarios);
         string linea;
         while (getline(file, linea)) {
             if (linea.empty()) continue;
             stringstream ss(linea);
             string idStr, nombre, pass, rol, idTutAsig;
-            getline(ss, idStr, ',');
-            getline(ss, nombre, ',');
-            getline(ss, pass, ',');
-            getline(ss, rol, ',');
-            getline(ss, idTutAsig, ','); 
+            getline(ss, idStr, ','); getline(ss, nombre, ','); getline(ss, pass, ','); getline(ss, rol, ','); getline(ss, idTutAsig, ','); 
 
             try {
                 if (rol == "alumno" && !idTutAsig.empty()) {
                     if (stoi(idTutAsig) == idTutorPropio) {
-                        listaAlumnos.push_back(nombre);
+                        AlumnoResumen ar;
+                        ar.id = stoi(idStr);
+                        ar.nombre = nombre;
+                        lista.push_back(ar);
                     }
                 }
             } catch(...) {}
         }
-        return listaAlumnos;
+        return lista;
     }
-    
-
 };
 
 #endif // GESTORDATOS_H
