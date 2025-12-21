@@ -1,4 +1,4 @@
-1,alumno1,1234,alumno,0
+1,alumno1,1234,alumno,2
 2,tutor1,abcd,tutor,0
 3,pepe.uco,1234,alumno,2
 4,maria.uco,5678,tutor,0
