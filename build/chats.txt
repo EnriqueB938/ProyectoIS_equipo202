@@ -1,2 +1,1 @@
-3;2;Hola profe|Hola, dime|Tengo una duda con C++
-1;2;Hola alumno|Hola, profesor|Tnego una duda...
+1,3,2,pepe.uco: holaa|pepe.uco: holaa|[21/12/2025 13:20] pepe.uco: holaa
